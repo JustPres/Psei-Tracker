@@ -153,7 +153,7 @@ async function fetchFromYahooFinance(symbol: string): Promise<Stock | null> {
             };
         }
         return null;
-    } catch (error) {
+    } catch (error: unknown) {
         console.error(`Error fetching ${symbol}:`, error);
         return null;
     }
@@ -339,7 +339,9 @@ export function getPSEiSymbols(): string[] {
 export function filterPSEiStocks(stocks: unknown[]): unknown[] {
     const pseiSymbols = new Set(getPSEiSymbols());
     // Try to filter objects with a symbol property
-    return stocks.filter((stock: any) => pseiSymbols.has(stock.symbol));
+    return stocks.filter((stock: unknown) => {
+        return typeof stock === 'object' && stock !== null && 'symbol' in stock && pseiSymbols.has((stock as { symbol: string }).symbol);
+    });
 }
 
 // Export stock names for use in components

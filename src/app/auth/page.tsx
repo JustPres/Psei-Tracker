@@ -23,8 +23,12 @@ export default function AuthPage() {
                 await createUserWithEmailAndPassword(auth, email, password);
             }
             router.push('/');
-        } catch (error: any) {
-            setError(error.message);
+        } catch (error: unknown) {
+            if (typeof error === 'object' && error !== null && 'message' in error && typeof (error as any).message === 'string') {
+                setError((error as { message: string }).message);
+            } else {
+                setError('An unknown error occurred.');
+            }
         }
     };
 

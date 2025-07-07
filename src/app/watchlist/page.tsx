@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { Stock, WatchlistItem } from '@/types/stock';
+import { Stock } from '@/types/stock';
 import Navigation from '@/components/Navigation';
 import { db } from '@/lib/firebase';
 import {
@@ -10,7 +10,6 @@ import {
     query,
     where,
     getDocs,
-    addDoc,
     deleteDoc,
     doc,
 } from '@firebase/firestore';
