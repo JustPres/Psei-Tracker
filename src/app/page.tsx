@@ -14,6 +14,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartData,
 } from 'chart.js';
 import socket from '../lib/socket';
 import { getPSEiSymbols, STOCK_NAMES } from '../lib/stocks';
@@ -262,7 +263,7 @@ export default function Home() {
           aria-label={`Real-time price and volume chart for ${selected} stock`}
           tabIndex={0}
         >
-          <Line data={chartData as unknown} options={chartOptions} />
+          <Line data={chartData as ChartData<'line'>} options={chartOptions} />
         </div>
 
         {/* Accessible Table for All Stocks */}
