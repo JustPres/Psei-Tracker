@@ -12,7 +12,7 @@ export default function AuthPage() {
     const [error, setError] = useState('');
     const router = useRouter();
 
-    const handleAuth = async (e: React.FormEvent) => {
+    const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError('');
 

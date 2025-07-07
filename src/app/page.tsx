@@ -32,8 +32,16 @@ ChartJS.register(
 
 const STOCKS = getPSEiSymbols();
 
+// Define a StockUpdate type for socket updates
+interface StockUpdate {
+  symbol: string;
+  price: number;
+  change: number;
+  percentChange: number;
+  volume: number;
+}
+
 export default function Home() {
-  const { user } = useAuth();
   const [selected, setSelected] = useState("SM");
   const [stocksData, setStocksData] = useState<Stock[]>([]);
   const [loading, setLoading] = useState(true);
@@ -78,7 +86,7 @@ export default function Home() {
       )
     );
 
-    const handler = (update: any) => {
+    const handler = (update: StockUpdate) => {
       setHistory((prev) => {
         const now = new Date().toLocaleTimeString();
         const prevData = prev[update.symbol] || {

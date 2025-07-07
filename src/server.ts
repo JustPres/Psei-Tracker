@@ -11,20 +11,40 @@ const io = new Server(httpServer, {
 });
 
 // Store last known prices
-let lastPrices: { [symbol: string]: number } = {};
+// const lastPrices: { [symbol: string]: number } = {};
 
 // Mock stock data for real-time updates
 const mockStocks: Stock[] = [
-    { symbol: 'SM', name: 'SM Investments Corporation', price: 1025.00, change: 15.50, percentChange: 1.52, volume: 125000, lastUpdated: new Date() },
-    { symbol: 'BDO', name: 'BDO Unibank, Inc.', price: 145.80, change: -2.20, percentChange: -1.48, volume: 89000, lastUpdated: new Date() },
-    { symbol: 'AC', name: 'Ayala Corporation', price: 678.50, change: 8.75, percentChange: 1.31, volume: 67000, lastUpdated: new Date() },
-    { symbol: 'TEL', name: 'PLDT Inc.', price: 1234.00, change: -12.50, percentChange: -1.00, volume: 45000, lastUpdated: new Date() },
-    { symbol: 'JFC', name: 'Jollibee Foods Corporation', price: 245.60, change: 3.40, percentChange: 1.40, volume: 78000, lastUpdated: new Date() },
-    { symbol: 'GLO', name: 'Globe Telecom, Inc.', price: 1890.00, change: 25.00, percentChange: 1.34, volume: 34000, lastUpdated: new Date() },
-    { symbol: 'MBT', name: 'Metropolitan Bank & Trust Company', price: 56.80, change: -0.70, percentChange: -1.22, volume: 156000, lastUpdated: new Date() },
-    { symbol: 'BPI', name: 'Bank of the Philippine Islands', price: 112.50, change: 1.25, percentChange: 1.12, volume: 98000, lastUpdated: new Date() },
-    { symbol: 'SMC', name: 'San Miguel Corporation', price: 98.75, change: 0.50, percentChange: 0.51, volume: 234000, lastUpdated: new Date() },
-    { symbol: 'URC', name: 'Universal Robina Corporation', price: 134.20, change: -1.80, percentChange: -1.32, volume: 67000, lastUpdated: new Date() }
+    { symbol: 'AC', name: 'Ayala Corporation', price: 800, change: 0, percentChange: 0, volume: 100000, lastUpdated: new Date() },
+    { symbol: 'ALI', name: 'Ayala Land, Inc.', price: 30, change: 0, percentChange: 0, volume: 120000, lastUpdated: new Date() },
+    { symbol: 'AP', name: 'Aboitiz Power Corporation', price: 35, change: 0, percentChange: 0, volume: 90000, lastUpdated: new Date() },
+    { symbol: 'AREIT', name: 'AREIT, Inc.', price: 35, change: 0, percentChange: 0, volume: 80000, lastUpdated: new Date() },
+    { symbol: 'BDO', name: 'BDO Unibank, Inc.', price: 145, change: 0, percentChange: 0, volume: 110000, lastUpdated: new Date() },
+    { symbol: 'BLOOM', name: 'Bloomberry Resorts Corporation', price: 10, change: 0, percentChange: 0, volume: 95000, lastUpdated: new Date() },
+    { symbol: 'BPI', name: 'Bank of the Philippine Islands', price: 112, change: 0, percentChange: 0, volume: 98000, lastUpdated: new Date() },
+    { symbol: 'CNVRG', name: 'Converge ICT Solutions, Inc.', price: 15, change: 0, percentChange: 0, volume: 70000, lastUpdated: new Date() },
+    { symbol: 'DMC', name: 'DMCI Holdings, Inc.', price: 9, change: 0, percentChange: 0, volume: 60000, lastUpdated: new Date() },
+    { symbol: 'EMP', name: 'Emperador Inc.', price: 20, change: 0, percentChange: 0, volume: 65000, lastUpdated: new Date() },
+    { symbol: 'GLO', name: 'Globe Telecom, Inc.', price: 1890, change: 0, percentChange: 0, volume: 34000, lastUpdated: new Date() },
+    { symbol: 'GTCAP', name: 'GT Capital Holdings, Inc.', price: 500, change: 0, percentChange: 0, volume: 30000, lastUpdated: new Date() },
+    { symbol: 'ICT', name: 'International Container Terminal Services, Inc.', price: 200, change: 0, percentChange: 0, volume: 40000, lastUpdated: new Date() },
+    { symbol: 'JFC', name: 'Jollibee Foods Corporation', price: 245, change: 0, percentChange: 0, volume: 78000, lastUpdated: new Date() },
+    { symbol: 'LTG', name: 'LT Group, Inc.', price: 10, change: 0, percentChange: 0, volume: 50000, lastUpdated: new Date() },
+    { symbol: 'MBT', name: 'Metropolitan Bank & Trust Company', price: 56, change: 0, percentChange: 0, volume: 156000, lastUpdated: new Date() },
+    { symbol: 'MEG', name: 'Megaworld Corporation', price: 2, change: 0, percentChange: 0, volume: 80000, lastUpdated: new Date() },
+    { symbol: 'MER', name: 'Manila Electric Company', price: 350, change: 0, percentChange: 0, volume: 25000, lastUpdated: new Date() },
+    { symbol: 'MPI', name: 'Metro Pacific Investments Corporation', price: 5, change: 0, percentChange: 0, volume: 60000, lastUpdated: new Date() },
+    { symbol: 'PGOLD', name: 'Puregold Price Club, Inc.', price: 30, change: 0, percentChange: 0, volume: 40000, lastUpdated: new Date() },
+    { symbol: 'RRHI', name: 'Robinsons Retail Holdings, Inc.', price: 50, change: 0, percentChange: 0, volume: 35000, lastUpdated: new Date() },
+    { symbol: 'SECB', name: 'Security Bank Corporation', price: 80, change: 0, percentChange: 0, volume: 30000, lastUpdated: new Date() },
+    { symbol: 'SM', name: 'SM Investments Corporation', price: 1025, change: 0, percentChange: 0, volume: 125000, lastUpdated: new Date() },
+    { symbol: 'SMC', name: 'San Miguel Corporation', price: 98, change: 0, percentChange: 0, volume: 234000, lastUpdated: new Date() },
+    { symbol: 'SMPH', name: 'SM Prime Holdings, Inc.', price: 35, change: 0, percentChange: 0, volume: 90000, lastUpdated: new Date() },
+    { symbol: 'TEL', name: 'PLDT Inc.', price: 1234, change: 0, percentChange: 0, volume: 45000, lastUpdated: new Date() },
+    { symbol: 'URC', name: 'Universal Robina Corporation', price: 134, change: 0, percentChange: 0, volume: 67000, lastUpdated: new Date() },
+    { symbol: 'WLCON', name: 'Wilcon Depot, Inc.', price: 25, change: 0, percentChange: 0, volume: 30000, lastUpdated: new Date() },
+    { symbol: 'MONDE', name: 'Monde Nissin Corporation', price: 10, change: 0, percentChange: 0, volume: 40000, lastUpdated: new Date() },
+    { symbol: 'ACEN', name: 'ACEN Corporation', price: 6, change: 0, percentChange: 0, volume: 50000, lastUpdated: new Date() },
 ];
 
 // Function to generate realistic price changes

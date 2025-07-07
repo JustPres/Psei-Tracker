@@ -165,7 +165,7 @@ async function fetchStockFromYahooFinance(baseSymbol: string): Promise<Stock | n
     const symbolFormats = [
         `${baseSymbol}.PS`,  // Try with .PS suffix first
         baseSymbol,          // Try without suffix
-        `${baseSymbol}.PA`,  // Try with .PA suffix (some Philippine stocks use this)
+        `${baseSymbol}.PM`,  // Try with .PM suffix (some PH stocks use this, rare)
     ];
 
     for (const symbol of symbolFormats) {
@@ -175,13 +175,17 @@ async function fetchStockFromYahooFinance(baseSymbol: string): Promise<Stock | n
                 console.log(`✅ Successfully fetched ${baseSymbol} using symbol: ${symbol}`);
                 return stock;
             }
-        } catch (error) {
-            // Continue to next format
-            continue;
+        } catch (error: any) {
+            // If error is 404, try next variant, else log
+            if (error?.message?.includes('404')) {
+                continue;
+            } else {
+                console.error(`Error fetching ${symbol}:`, error);
+            }
         }
     }
 
-    console.log(`❌ Could not fetch ${baseSymbol} with any symbol format`);
+    console.log(`❌ Could not fetch ${baseSymbol} with any symbol format (.PS, no suffix, .PM)`);
     return null;
 }
 
