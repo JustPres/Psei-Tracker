@@ -175,9 +175,15 @@ async function fetchStockFromYahooFinance(baseSymbol: string): Promise<Stock | n
                 console.log(`✅ Successfully fetched ${baseSymbol} using symbol: ${symbol}`);
                 return stock;
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             // If error is 404, try next variant, else log
-            if (error?.message?.includes('404')) {
+            if (
+                typeof error === 'object' &&
+                error !== null &&
+                'message' in error &&
+                typeof (error as Record<string, unknown>).message === 'string' &&
+                (error as { message: string }).message.includes('404')
+            ) {
                 continue;
             } else {
                 console.error(`Error fetching ${symbol}:`, error);

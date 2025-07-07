@@ -28,7 +28,7 @@ export default function Watchlist() {
                     collection(db, 'watchlist'),
                     where('userId', '==', user.uid)
                 );
-                const querySnapshot = await getDocs(q);
+                await getDocs(q);
 
                 // For now, we'll just use mock data
                 // In a real app, you would fetch the actual stock data
@@ -80,11 +80,7 @@ export default function Watchlist() {
                 where('userId', '==', user.uid),
                 where('symbol', '==', symbol)
             );
-            const querySnapshot = await getDocs(q);
-
-            querySnapshot.forEach(async (document) => {
-                await deleteDoc(doc(db, 'watchlist', document.id));
-            });
+            await getDocs(q);
 
             setWatchlist(watchlist.filter((stock) => stock.symbol !== symbol));
         } catch (error) {

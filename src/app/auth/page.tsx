@@ -24,7 +24,12 @@ export default function AuthPage() {
             }
             router.push('/');
         } catch (error: unknown) {
-            if (typeof error === 'object' && error !== null && 'message' in error && typeof (error as any).message === 'string') {
+            if (
+                typeof error === 'object' &&
+                error !== null &&
+                'message' in error &&
+                typeof (error as Record<string, unknown>).message === 'string'
+            ) {
                 setError((error as { message: string }).message);
             } else {
                 setError('An unknown error occurred.');
