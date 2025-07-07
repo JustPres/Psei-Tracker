@@ -3,11 +3,11 @@ import { fetchStocksAll } from 'pse-edge/lib';
 
 // All 30 PSEi stocks with their correct Yahoo Finance symbols
 // Note: Many PSEi stocks don't use .PS suffix on Yahoo Finance
-const PSEI_SYMBOLS = [
-    'AC.PS', 'ALI.PS', 'AP.PS', 'AREIT.PS', 'BDO.PS', 'BLOOM.PS', 'BPI.PS', 'CNVRG.PS', 'DMC.PS', 'EMP.PS',
-    'GLO.PS', 'GTCAP.PS', 'ICT.PS', 'JFC.PS', 'LTG.PS', 'MBT.PS', 'MEG.PS', 'MER.PS', 'MPI.PS', 'PGOLD.PS',
-    'RRHI.PS', 'SECB.PS', 'SM.PS', 'SMC.PS', 'SMPH.PS', 'TEL.PS', 'URC.PS', 'WLCON.PS', 'MONDE.PS', 'ACEN.PS'
-];
+// const PSEI_SYMBOLS = [
+//     'AC.PS', 'ALI.PS', 'AP.PS', 'AREIT.PS', 'BDO.PS', 'BLOOM.PS', 'BPI.PS', 'CNVRG.PS', 'DMC.PS', 'EMP.PS',
+//     'GLO.PS', 'GTCAP.PS', 'ICT.PS', 'JFC.PS', 'LTG.PS', 'MBT.PS', 'MEG.PS', 'MER.PS', 'MPI.PS', 'PGOLD.PS',
+//     'RRHI.PS', 'SECB.PS', 'SM.PS', 'SMC.PS', 'SMPH.PS', 'TEL.PS', 'URC.PS', 'WLCON.PS', 'MONDE.PS', 'ACEN.PS'
+// ];
 
 // Alternative symbols that might work better on Yahoo Finance
 const ALTERNATIVE_SYMBOLS = [
@@ -217,38 +217,38 @@ async function fetchAllFromYahooFinance(): Promise<Stock[]> {
 }
 
 // Alternative: Fetch from Alpha Vantage (requires API key)
-async function fetchFromAlphaVantage(symbol: string, apiKey: string): Promise<Stock | null> {
-    try {
-        const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}.PS&apikey=${apiKey}`;
-        const response = await fetch(url);
-        const data = await response.json();
-
-        if (data['Global Quote']) {
-            const quote = data['Global Quote'];
-            const currentPrice = parseFloat(quote['05. price']);
-            const previousClose = parseFloat(quote['08. previous close']);
-            const change = currentPrice - previousClose;
-            const percentChange = parseFloat(quote['10. change percent'].replace('%', ''));
-            const volume = parseInt(quote['06. volume']);
-
-            const baseSymbol = symbol.replace('.PS', '');
-
-            return {
-                symbol: baseSymbol,
-                name: STOCK_NAMES[baseSymbol] || baseSymbol,
-                price: currentPrice,
-                change: parseFloat(change.toFixed(2)),
-                percentChange: parseFloat(percentChange.toFixed(2)),
-                volume: volume,
-                lastUpdated: new Date()
-            };
-        }
-        return null;
-    } catch (error) {
-        console.error(`Error fetching ${symbol} from Alpha Vantage:`, error);
-        return null;
-    }
-}
+// async function fetchFromAlphaVantage(symbol: string, apiKey: string): Promise<Stock | null> {
+//     try {
+//         const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}.PS&apikey=${apiKey}`;
+//         const response = await fetch(url);
+//         const data = await response.json();
+//
+//         if (data['Global Quote']) {
+//             const quote = data['Global Quote'];
+//             const currentPrice = parseFloat(quote['05. price']);
+//             const previousClose = parseFloat(quote['08. previous close']);
+//             const change = currentPrice - previousClose;
+//             const percentChange = parseFloat(quote['10. change percent'].replace('%', ''));
+//             const volume = parseInt(quote['06. volume']);
+//
+//             const baseSymbol = symbol.replace('.PS', '');
+//
+//             return {
+//                 symbol: baseSymbol,
+//                 name: STOCK_NAMES[baseSymbol] || baseSymbol,
+//                 price: currentPrice,
+//                 change: parseFloat(change.toFixed(2)),
+//                 percentChange: parseFloat(percentChange.toFixed(2)),
+//                 volume: volume,
+//                 lastUpdated: new Date()
+//             };
+//         }
+//         return null;
+//     } catch (error) {
+//         console.error(`Error fetching ${symbol} from Alpha Vantage:`, error);
+//         return null;
+//     }
+// }
 
 // Main function to fetch stock data with multiple fallbacks
 export async function fetchStockData(): Promise<Stock[]> {

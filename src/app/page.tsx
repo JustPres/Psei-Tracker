@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { Stock } from '../types/stock.js';
-import { useAuth } from '../contexts/AuthContext';
 import Navigation from '../components/Navigation';
 import { Line } from 'react-chartjs-2';
 import {
@@ -263,7 +262,7 @@ export default function Home() {
           aria-label={`Real-time price and volume chart for ${selected} stock`}
           tabIndex={0}
         >
-          <Line data={chartData as any} options={chartOptions} />
+          <Line data={chartData as unknown} options={chartOptions} />
         </div>
 
         {/* Accessible Table for All Stocks */}
