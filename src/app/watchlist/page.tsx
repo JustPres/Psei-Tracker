@@ -10,8 +10,6 @@ import {
     query,
     where,
     getDocs,
-    deleteDoc,
-    doc,
 } from '@firebase/firestore';
 
 export default function Watchlist() {
