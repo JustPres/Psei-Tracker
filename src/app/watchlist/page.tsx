@@ -54,22 +54,23 @@ export default function Watchlist() {
         fetchWatchlist();
     }, [user]);
 
-    const addToWatchlist = async (stock: Stock) => {
-        if (!user) return;
-
-        try {
-            const watchlistItem: WatchlistItem = {
-                userId: user.uid,
-                symbol: stock.symbol,
-                addedAt: new Date(),
-            };
-
-            await addDoc(collection(db, 'watchlist'), watchlistItem);
-            setWatchlist([...watchlist, stock]);
-        } catch (error) {
-            console.error('Error adding to watchlist:', error);
-        }
-    };
+    // Remove or comment out unused variables 'querySnapshot' and 'addToWatchlist'
+    // const addToWatchlist = async (stock: Stock) => {
+    //     if (!user) return;
+    //
+    //     try {
+    //         const watchlistItem: WatchlistItem = {
+    //             userId: user.uid,
+    //             symbol: stock.symbol,
+    //             addedAt: new Date(),
+    //         };
+    //
+    //         await addDoc(collection(db, 'watchlist'), watchlistItem);
+    //         setWatchlist([...watchlist, stock]);
+    //     } catch (error) {
+    //         console.error('Error adding to watchlist:', error);
+    //     }
+    // };
 
     const removeFromWatchlist = async (symbol: string) => {
         if (!user) return;

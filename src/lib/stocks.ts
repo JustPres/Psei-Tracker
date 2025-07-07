@@ -318,7 +318,7 @@ export async function fetchSingleStockData(symbol: string): Promise<Stock | null
 }
 
 // Legacy functions for compatibility
-export async function fetchAllPSEStocks(): Promise<any[]> {
+export async function fetchAllPSEStocks(): Promise<unknown[]> {
     try {
         const stocks = await fetchStocksAll();
         return stocks;
@@ -336,9 +336,10 @@ export function getPSEiSymbols(): string[] {
     ];
 }
 
-export function filterPSEiStocks(stocks: any[]): any[] {
+export function filterPSEiStocks(stocks: unknown[]): unknown[] {
     const pseiSymbols = new Set(getPSEiSymbols());
-    return stocks.filter(stock => pseiSymbols.has(stock.symbol));
+    // Try to filter objects with a symbol property
+    return stocks.filter((stock: any) => pseiSymbols.has(stock.symbol));
 }
 
 // Export stock names for use in components
